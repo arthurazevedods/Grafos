@@ -48,22 +48,18 @@ class Graph:
 			current = queue.get()  #current recebe o primeiro valor da fila de nós a serem percorridos
 			#nesse laço, será percorrido todos os nós adjacentes a current
 			for i in self.edges[current]:
+				degree = tree[current][1]+1	#ver qual o grau do nó pai e soma +1 para saber qual o grau atual
 				#se i não tiver sido visitado ainda, será inserido em visited, queue e tree
 				if(not i in visited):	 
 					visited.add(i)		
 					queue.put(i)
 					tree.append((i,degree))     #em tree, ele é inserido com seu grau
-			degree+=1	   #assim que muda de current, o grau irá aumentar
 		return tree	
 
-	def show_bfs(self,root):
-		tree = self.bfs(root)
-
-		for i in tree:
-			print(i)
+	
 
 	#busca em profundidade
-	def visit_dfs(self, visited, stack, tree,degree, counter):
+	def visit_dfs(self, visited, stack, tree,degree):
 		#o laço se repetirá até a pilha de nós acabar
 		while len(stack)!=0:
 			current = stack.pop() #current recebe o nó de cima da pilha
@@ -73,30 +69,40 @@ class Graph:
 				if(not i in visited):
 					visited.add(i)
 					stack.append(i)
-					tree.append((i,(counter, degree)))
-				t = self.visit_dfs(visited, stack, tree,degree+1, counter+1)
-			counter += 1
+					tree.append((i,(degree)))
+				#função recursiva
+				t = self.visit_dfs(visited, stack, tree,degree+1)
 		return tree
-	def dfs(self, root):
-		visited = set()
-		stack = list()
-		tree = list()
 
+	def dfs(self, root):
+		visited = set()	#coleção com os nós visitados
+		stack = list()	#pilha com os nós a serem percorridos
+		tree = list()	#arvore de busca
+
+		#o nó root(raiz) é inserido na coleção e nas listas
 		visited.add(root)
 		stack.append(root)
-		tree.append((root,(0,0)))	#counter, degree
-		degree = 1
-		counter = 1
+		tree.append((root,0))	#na arvore é inserido o nó e o seu grau
+		
 
-		tree = self.visit_dfs(visited, stack, tree, degree, counter)
+		#para percorrer o grafo se usará uma função recursiva
+		tree = self.visit_dfs(visited, stack, tree, 1) 
 		return tree
 
+	
+	#imprimir na tela a busca em profundidade
+	def show_bfs(self,root):
+		tree = self.bfs(root)
+		print('\nBUSCA EM LARGURA:\n')
+		for i in tree:
+			print('\t> Nó: {}  > Grau:{}'.format(i[0],i[1]))
 
+	#imprimir na tela a busca em profundidade
 	def show_dfs(self,root):
 		tree = self.dfs(root)
-
+		print('\nBUSCA EM PROFUNDIDADE:\n')
 		for i in tree:
-			print(i)
+			print('\t> Nó: {}  > Grau:{}'.format(i[0],i[1]))
 
 def main():
 
@@ -108,7 +114,8 @@ def main():
 		node, edge = input().split()
 		grafo.add_edge(int(node), int(edge))
 
-	print(grafo.show_dfs(0))	#busca em profundidade
-	print(grafo.show_bfs(0))	#busca em largura
+	grafo.show_bfs(0)	#busca em largura
+	grafo.show_dfs(0)	#busca em profundidade
+	
 
 main()
