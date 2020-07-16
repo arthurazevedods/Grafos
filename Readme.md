@@ -1,8 +1,8 @@
 Classe de grafos, que usei como base para alguns trabalhos de Estrutura de Dados 2 e Inteligência Artificial da Universidade Federal do Maranhão
 
-#Como usar
+# Como usar
 
-##ENTRADA
+## ENTRADA
 Receberá uma entrada com o número de vertices e arestas, e logo em seguida, nas proximas N linhas determinadas pelo número de arestas, serão lidas as ligações entre os vertices. Como no exemplo a seguir:
 ```
 11 10
@@ -22,7 +22,7 @@ Receberá uma entrada com o número de vertices e arestas, e logo em seguida, na
 python3 grafo.py < input.in
 ```
 
-##SAÍDA
+## SAÍDA
 
 Na saída, será imprimido em ordem de busca o nó e o seu grau
 
